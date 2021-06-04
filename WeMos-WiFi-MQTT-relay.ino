@@ -51,10 +51,10 @@ void callback(char* topic, byte* payload, unsigned int length) {
   // Switch on the LED if an 1 was received as first character
   if ((char)payload[0] == '1') {
     digitalWrite(RELAY_PIN, HIGH);
-    client.publish("node/"CLIENT_ID"/relay", "1", true);
+    client.publish(CLIENT_ID"/relay", "1", true);
   } else {
     digitalWrite(RELAY_PIN, LOW);
-    client.publish("node/"CLIENT_ID"/relay", "0", true);
+    client.publish(CLIENT_ID"/relay", "0", true);
   }
 
 }
@@ -68,7 +68,7 @@ void reconnect() {
     if (client.connect(CLIENT_ID, willTopic, 0, true, "0")) {
       Serial.println("connected");
       client.publish(willTopic, "1", true);
-      client.subscribe("node/"CLIENT_ID"/relay/set");
+      client.subscribe(CLIENT_ID"/relay/set");
       digitalWrite(LED_BUILTIN, HIGH);
     } else {
       Serial.print("failed, rc=");
