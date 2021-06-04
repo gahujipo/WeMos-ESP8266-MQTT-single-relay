@@ -1,7 +1,5 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
-#include <OneWire.h>
-#include <DallasTemperature.h>
 
 // i'm loading settings from this file
 #include "credentials.h"
@@ -11,21 +9,12 @@
 //const char* password = "";
 //const char* mqtt_server = "";
 
-// Data wire is plugged into pin 2 on the Arduino
-#define ONE_WIRE_BUS 5
-
 #define CLIENT_ID "qm9"
 
 #define IN_PIN 5
 #define RELAY_PIN 4
 
 const char* willTopic = "$CONNECTED/"CLIENT_ID;
-
-// Setup a oneWire instance to communicate with any OneWire devices 
-// (not just Maxim/Dallas temperature ICs)
-OneWire oneWire(ONE_WIRE_BUS);
-
-DallasTemperature sensors(&oneWire);
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -101,8 +90,6 @@ void setup()
   setup_wifi(); 
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
-  pinMode(IN_PIN, INPUT);
-  sensors.begin();
 }
 
 void loop()
@@ -111,15 +98,4 @@ void loop()
     reconnect();
   }
   client.loop();
-
-  long now = millis();
-  if (now - lastMsg > 60000) {
-    lastMsg = now;
-    sensors.setResolution(12);
-    sensors.requestTemperatures(); // Send the command to get temperatures
-    temp = sensors.getTempCByIndex(0);
-    Serial.println(temp);
-    
-    client.publish("node/"CLIENT_ID"/sys/temp", String(temp).c_str(), false);
-  }
 }
