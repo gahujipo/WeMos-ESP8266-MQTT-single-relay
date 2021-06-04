@@ -48,15 +48,19 @@ void callback(char* topic, byte* payload, unsigned int length) {
   }
   Serial.println();
 
-  // Switch on the LED if an 1 was received as first character
+  // Toggle relay and LED if an 1 was received as first character
   if ((char)payload[0] == '1') {
     digitalWrite(RELAY_PIN, HIGH);
     client.publish(CLIENT_ID"/relay", "1", true);
-  } else {
+    delay(3000);
     digitalWrite(RELAY_PIN, LOW);
     client.publish(CLIENT_ID"/relay", "0", true);
   }
-
+  else
+  {
+    Serial.print("Received non 1. Therefore I won't do anything right now.");
+    Serial.println();
+  }
 }
 
 void reconnect() {
