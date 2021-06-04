@@ -1,3 +1,4 @@
 Schematics/*.png
 Schematics/*.s#?
 credentials.h
+.DS_Store
