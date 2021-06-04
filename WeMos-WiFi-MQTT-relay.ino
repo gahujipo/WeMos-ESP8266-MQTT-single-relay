@@ -65,7 +65,7 @@ void reconnect() {
   while (!client.connected()) {
     Serial.print("Attempting MQTT connection...");
     // Attempt to connect
-    if (client.connect(CLIENT_ID, willTopic, 0, true, "0")) {
+    if (client.connect(CLIENT_ID, mqtt_username, mqtt_password ,willTopic, 0, true, "0")) {
       Serial.println("connected");
       client.publish(willTopic, "1", true);
       client.subscribe(CLIENT_ID"/relay/set");
