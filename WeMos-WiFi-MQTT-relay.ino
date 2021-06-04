@@ -8,11 +8,9 @@
 //const char* ssid = "";
 //const char* password = "";
 //const char* mqtt_server = "";
+//#define CLIENT_ID "qm9"
 
-#define CLIENT_ID "qm9"
-
-#define IN_PIN 5
-#define RELAY_PIN 4
+#define RELAY_PIN D1
 
 const char* willTopic = "$CONNECTED/"CLIENT_ID;
 
